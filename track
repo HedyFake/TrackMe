@@ -106,13 +106,6 @@ waiting(){
     echo "$me[$or!$me]$ku Ketik CTRL + C untuk stop.!!"
     uoutput
     fi
-
-
-    if [ -e "server/error.txt" ]; then 
-    echo "$me[$or!$me]$pu Eror"
-    waiting
-    fi
-    sleep 0.40
     done
 
 
